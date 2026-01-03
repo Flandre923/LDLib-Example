@@ -3,18 +3,14 @@ package com.example.examplemod.gui.tutorial;
 import com.example.examplemod.ExampleMod;
 import com.lowdragmc.lowdraglib2.gui.holder.IModularUIHolderMenu;
 import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.items.ItemStackHandler;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,14 +22,6 @@ import org.jetbrains.annotations.Nullable;
  * for seamless communication between the client screen and server menu.
  */
 public class Tutorial7Menu extends AbstractContainerMenu implements MenuProvider {
-
-    public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(Registries.MENU, ExampleMod.MODID);
-
-    @SuppressWarnings("unchecked")
-    public static final DeferredHolder<MenuType<?>, MenuType<Tutorial7Menu>> TYPE =
-            MENU_TYPES.register("tutorial_7", () -> {
-                return new MenuType<>((p_38951_, p_38952_) -> new Tutorial7Menu(p_38951_, p_38952_), net.minecraft.world.flag.FeatureFlags.VANILLA_SET);
-            });
 
     // Server-side data
     private final ItemStackHandler itemHandler = new ItemStackHandler(2);
@@ -52,7 +40,7 @@ public class Tutorial7Menu extends AbstractContainerMenu implements MenuProvider
      * @param playerInventory the player's inventory
      */
     public Tutorial7Menu(int containerId, Inventory playerInventory) {
-        super(TYPE.get(), containerId);
+        super(ExampleMod.TUTORIAL_7_MENU.get(), containerId);
         this.player = playerInventory.player;
 
         // Initialize fluid tank with empty fluid

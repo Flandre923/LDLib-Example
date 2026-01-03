@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.inventory.MenuType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -53,6 +54,16 @@ public class ExampleMod {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MODID);
     // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "examplemod" namespace
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
+    // Create a Deferred Register to hold MenuTypes which will all be registered under the "examplemod" namespace
+    public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(Registries.MENU, MODID);
+
+    // Menu types
+    public static final DeferredHolder<MenuType<?>, MenuType<RepairStationMenu>> REPAIR_STATION_MENU =
+            MENU_TYPES.register("repair_station", () -> new MenuType<>(RepairStationMenu::new, net.minecraft.world.flag.FeatureFlags.VANILLA_SET));
+    public static final DeferredHolder<MenuType<?>, MenuType<Tutorial6Menu>> TUTORIAL_6_MENU =
+            MENU_TYPES.register("tutorial_6", () -> new MenuType<>(Tutorial6Menu::new, net.minecraft.world.flag.FeatureFlags.VANILLA_SET));
+    public static final DeferredHolder<MenuType<?>, MenuType<Tutorial7Menu>> TUTORIAL_7_MENU =
+            MENU_TYPES.register("tutorial_7", () -> new MenuType<>(Tutorial7Menu::new, net.minecraft.world.flag.FeatureFlags.VANILLA_SET));
 
     // Creates a new Block with the id "examplemod:example_block", combining the namespace and path
     public static final DeferredBlock<Block> EXAMPLE_BLOCK = BLOCKS.registerSimpleBlock("example_block", BlockBehaviour.Properties.of().mapColor(MapColor.STONE));
@@ -123,10 +134,8 @@ public class ExampleMod {
         ModularBlocks.BLOCKS.register(modEventBus);
         // Register block entity types
         ModularBlockEntityTypes.BLOCK_ENTITY_TYPES.register(modEventBus);
-        // Register menu types
-        RepairStationMenu.MENU_TYPES.register(modEventBus);
-        Tutorial6Menu.MENU_TYPES.register(modEventBus);
-        Tutorial7Menu.MENU_TYPES.register(modEventBus);
+        // Register menu types (centralized registration)
+        MENU_TYPES.register(modEventBus);
         // Register the Deferred Register to the mod event bus so items get registered
         ITEMS.register(modEventBus);
         // Register the Deferred Register to the mod event bus so tabs get registered

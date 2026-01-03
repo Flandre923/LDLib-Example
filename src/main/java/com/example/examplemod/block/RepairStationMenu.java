@@ -1,17 +1,12 @@
 package com.example.examplemod.block;
 
 import com.example.examplemod.ExampleMod;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.flag.FeatureFlags;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -20,24 +15,16 @@ import org.jetbrains.annotations.NotNull;
  */
 public class RepairStationMenu extends AbstractContainerMenu {
 
-    public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(Registries.MENU, ExampleMod.MODID);
-
     private static final int SLOT_COUNT = 1;
     private static final int PLAYER_INVENTORY_START = 1 + SLOT_COUNT;
     private static final int PLAYER_INVENTORY_END = PLAYER_INVENTORY_START + 26; // 27 slots
     private static final int PLAYER_HOTBAR_END = PLAYER_INVENTORY_END + 9; // +9 = 37 total
 
-    @SuppressWarnings("unchecked")
-    public static final DeferredHolder<MenuType<?>, MenuType<RepairStationMenu>> TYPE =
-            MENU_TYPES.register("repair_station", () -> {
-                return new MenuType<>((p_38951_, p_38952_) -> new RepairStationMenu(p_38951_, p_38952_, null), FeatureFlags.VANILLA_SET);
-            });
-
     private final RepairStationBlockEntity blockEntity;
     private final Player player;
 
     public RepairStationMenu(int containerId, Inventory playerInventory, RepairStationBlockEntity blockEntity) {
-        super(TYPE.get(), containerId);
+        super(ExampleMod.REPAIR_STATION_MENU.get(), containerId);
         this.blockEntity = blockEntity;
         this.player = playerInventory.player;
 
