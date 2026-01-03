@@ -1,0 +1,21 @@
+{
+  "itemGroup.examplemod": "Example Mod Tab",
+  "block.examplemod.example_block": "Example Block",
+  "item.examplemod.example_item": "Example Item",
+  "item.examplemod.repair_station": "Repair Station",
+
+  "block.examplemod.repair_station_block": "Repair Station",
+  "block.examplemod.repair_station_block.tooltip": "Right click to open repair UI.\\nEach tick repairs 1 durability.",
+
+  "item_repair.title": "Item Repair",
+  "item_repair.repair": "Repair",
+  "item_repair.status.idle": "Place item to repair",
+
+  "examplemod.configuration.title": "Example Mod Configs",
+  "examplemod.configuration.section.examplemod.common.toml": "Example Mod Configs",
+  "examplemod.configuration.section.examplemod.common.toml.title": "Example Mod Configs",
+  "examplemod.configuration.items": "Item List",
+  "examplemod.configuration.logDirtBlock": "Log Dirt Block",
+  "examplemod.configuration.magicNumberIntroduction": "Magic Number Text",
+  "examplemod.configuration.magicNumber": "Magic Number"
+}

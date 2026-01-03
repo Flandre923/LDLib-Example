@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir:*)",
+      "WebFetch(domain:docs.firstdark.dev)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:maven.firstdark.dev)",
+      "WebFetch(domain:low-drag-mc.github.io)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:gist.githubusercontent.com)",
+      "Bash(./gradlew:*)",
+      "WebFetch(domain:gitea.com)",
+      "WebFetch(domain:docs.gradle.org)",
+      "WebFetch(domain:codeberg.org)",
+      "WebFetch(domain:docs.neoforged.net)",
+      "Bash(jar tf:*)",
+      "Bash(findstr:*)",
+      "WebFetch(domain:gist.github.com)",
+      "Bash(jar:*)",
+      "Bash(javap:*)",
+      "Bash(unzip:*)",
+      "Bash(xxd:*)"
+    ]
+  }
+}
