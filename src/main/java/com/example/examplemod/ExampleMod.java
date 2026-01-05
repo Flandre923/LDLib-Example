@@ -18,7 +18,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.inventory.MenuType;
-import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
@@ -33,9 +32,8 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-import com.example.examplemod.block.ModularBlockEntityTypes;
 import com.example.examplemod.block.ModularBlocks;
-import com.example.examplemod.block.RepairStationBlock;
+import com.example.examplemod.block.ModularBlockEntityTypes;
 import com.example.examplemod.block.RepairStationMenu;
 import com.example.examplemod.gui.tutorial.Tutorial6Menu;
 import com.example.examplemod.gui.tutorial.Tutorial7Menu;
@@ -80,7 +78,6 @@ public class ExampleMod {
 
     // 创建修复台方块物品
     public static final DeferredItem<BlockItem> REPAIR_STATION_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("repair_station_block", ModularBlocks.REPAIR_STATION_BLOCK);
-
     // 创建教程1物品
     public static final DeferredItem<Item> TUTORIAL_1 = ITEMS.register("tutorial_1",
             () -> Tutorial1Item.INSTANCE.get());
@@ -104,6 +101,8 @@ public class ExampleMod {
 
     public static final DeferredItem<Item> TUTORIAL_7 = ITEMS.register("tutorial_7",
             () -> Tutorial7Item.INSTANCE.get());
+    public static final DeferredItem<Item> TUTORIAL_8 = ITEMS.register("tutorial_8",
+            () -> Tutorial8Item.INSTANCE.get());
     // Creates a creative tab with the id "examplemod:example_tab" for the example item, that is placed after the combat tab
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.examplemod")) //The language key for the title of your CreativeModeTab
@@ -120,6 +119,7 @@ public class ExampleMod {
                 output.accept(TUTORIAL_5.get());
                 output.accept(TUTORIAL_6.get());
                 output.accept(TUTORIAL_7.get());
+                output.accept(TUTORIAL_8.get());
             }).build());
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
