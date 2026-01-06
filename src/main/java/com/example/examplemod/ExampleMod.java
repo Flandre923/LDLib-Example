@@ -34,10 +34,8 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 import com.example.examplemod.block.ModularBlocks;
 import com.example.examplemod.block.ModularBlockEntityTypes;
-import com.example.examplemod.block.RepairStationMenu;
 import com.example.examplemod.gui.tutorial.Tutorial6Menu;
 import com.example.examplemod.gui.tutorial.Tutorial7Menu;
-import com.example.examplemod.item.RepairStationItem;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(ExampleMod.MODID)
@@ -56,8 +54,6 @@ public class ExampleMod {
     public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(Registries.MENU, MODID);
 
     // Menu types
-    public static final DeferredHolder<MenuType<?>, MenuType<RepairStationMenu>> REPAIR_STATION_MENU =
-            MENU_TYPES.register("repair_station", () -> new MenuType<>(RepairStationMenu::new, net.minecraft.world.flag.FeatureFlags.VANILLA_SET));
     public static final DeferredHolder<MenuType<?>, MenuType<Tutorial6Menu>> TUTORIAL_6_MENU =
             MENU_TYPES.register("tutorial_6", () -> new MenuType<>(Tutorial6Menu::new, net.minecraft.world.flag.FeatureFlags.VANILLA_SET));
     public static final DeferredHolder<MenuType<?>, MenuType<Tutorial7Menu>> TUTORIAL_7_MENU =
@@ -71,10 +67,6 @@ public class ExampleMod {
     // Creates a new food item with the id "examplemod:example_id", nutrition 1 and saturation 2
     public static final DeferredItem<Item> EXAMPLE_ITEM = ITEMS.registerSimpleItem("example_item", new Item.Properties().food(new FoodProperties.Builder()
             .alwaysEdible().nutrition(1).saturationModifier(2f).build()));
-
-    // 创建修复台物品
-    public static final DeferredItem<Item> REPAIR_STATION = ITEMS.register("repair_station",
-            () -> RepairStationItem.INSTANCE.get());
 
     // 创建修复台方块物品
     public static final DeferredItem<BlockItem> REPAIR_STATION_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("repair_station_block", ModularBlocks.REPAIR_STATION_BLOCK);
@@ -103,6 +95,8 @@ public class ExampleMod {
             () -> Tutorial7Item.INSTANCE.get());
     public static final DeferredItem<Item> TUTORIAL_8 = ITEMS.register("tutorial_8",
             () -> Tutorial8Item.INSTANCE.get());
+    public static final DeferredItem<Item> TUTORIAL_9 = ITEMS.register("tutorial_9",
+            () -> Tutorial9Item.INSTANCE.get());
     // Creates a creative tab with the id "examplemod:example_tab" for the example item, that is placed after the combat tab
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.examplemod")) //The language key for the title of your CreativeModeTab
@@ -110,7 +104,6 @@ public class ExampleMod {
             .icon(() -> EXAMPLE_ITEM.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
                 output.accept(EXAMPLE_ITEM.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
-                output.accept(REPAIR_STATION.get());
                 output.accept(REPAIR_STATION_BLOCK_ITEM.get());
                 output.accept(TUTORIAL_1.get());
                 output.accept(TUTORIAL_2.get());
@@ -120,6 +113,7 @@ public class ExampleMod {
                 output.accept(TUTORIAL_6.get());
                 output.accept(TUTORIAL_7.get());
                 output.accept(TUTORIAL_8.get());
+                output.accept(TUTORIAL_9.get());
             }).build());
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.

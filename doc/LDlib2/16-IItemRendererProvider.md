@@ -97,6 +97,7 @@ HeldItemUIMenuType.HeldItemUI 这是一个功能接口，用于在手持物品�
     }
 
 ```
+他都做了什么？为什么使用这个接口后就不需要自己去注册Screen了呢？
 
 # IRenderer
 
