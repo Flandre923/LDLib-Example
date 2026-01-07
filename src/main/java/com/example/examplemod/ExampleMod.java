@@ -1,6 +1,7 @@
 package com.example.examplemod;
 
 import com.example.examplemod.item.tutorial.*;
+import com.example.examplemod.thirst.ThirstDataAttachment;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -135,6 +136,7 @@ public class ExampleMod {
         // Register the Deferred Register to the mod event bus so tabs get registered
         CREATIVE_MODE_TABS.register(modEventBus);
 
+        ThirstDataAttachment.ATTACHMENT_TYPES.register(modEventBus);
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.

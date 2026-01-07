@@ -2,6 +2,8 @@ package com.example.examplemod.item.tutorial;
 
 import com.example.examplemod.gui.tutorial.Tutorial8Screen;
 import com.example.examplemod.gui.tutorial.Tutorial8UIContainer;
+import com.example.examplemod.thirst.ThirstData;
+import com.example.examplemod.thirst.ThirstDataAttachment;
 import com.lowdragmc.lowdraglib2.gui.factory.HeldItemUIMenuType;
 import com.lowdragmc.lowdraglib2.gui.sync.bindings.impl.SupplierDataSource;
 import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
@@ -11,6 +13,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.elements.Button;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Label;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.TextField;
 import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
+import com.lowdragmc.lowdraglib2.networking.rpc.RPCPacketDistributor;
 import com.lowdragmc.lowdraglib2.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
 import net.minecraft.client.Minecraft;
@@ -77,6 +80,10 @@ public class Tutorial9Item extends Item implements HeldItemUIMenuType.HeldItemUI
         ).style(style -> style.backgroundTexture(Sprites.BORDER));
         root.addChild(new Label().setText("Test Item UI"));
         root.addChild(new TextField());
+        root.addChild(new Label()
+                .bindDataSource(SupplierDataSource.of(()-> Component.literal(String.valueOf(ThirstDataAttachment.getThirstData(holder.player).getThirst())))));
+        root.addChild(new Button().setText("+").setOnClick(e -> RPCPacketDistributor.rpcToServer("addThirst",1)));
+        root.addChild(new Button().setText("-").setOnClick(e -> RPCPacketDistributor.rpcToServer("addThirst",-1)));
         return new ModularUI(UI.of(root), holder.player);
     }
 }
