@@ -19,14 +19,11 @@ import static com.mojang.text2speech.Narrator.LOGGER;
 
 public class ThirstData   {
 
-    @DescSynced
     private int thirst = ThirstConstants.MAX_THIRST;
     public final static Codec<ThirstData> CODEC = PersistedParser.createCodec(ThirstData::new);
 
 
-    @DescSynced
     private float exhaustion  = 0.0f;
-    @DescSynced
     private float lastThirstForRender = 20.0f;        // 用于UI平滑渲染的插值值
 
 

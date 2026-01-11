@@ -71,6 +71,8 @@ public class ExampleMod {
 
     // 创建修复台方块物品
     public static final DeferredItem<BlockItem> REPAIR_STATION_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("repair_station_block", ModularBlocks.REPAIR_STATION_BLOCK);
+    // 创建熔炉方块物品
+    public static final DeferredItem<BlockItem> MY_FURN_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("my_furn_block", ModularBlocks.MY_FURN_BLOCK);
     // 创建教程1物品
     public static final DeferredItem<Item> TUTORIAL_1 = ITEMS.register("tutorial_1",
             () -> Tutorial1Item.INSTANCE.get());
@@ -106,6 +108,7 @@ public class ExampleMod {
             .displayItems((parameters, output) -> {
                 output.accept(EXAMPLE_ITEM.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
                 output.accept(REPAIR_STATION_BLOCK_ITEM.get());
+                output.accept(MY_FURN_BLOCK_ITEM.get());
                 output.accept(TUTORIAL_1.get());
                 output.accept(TUTORIAL_2.get());
                 output.accept(TUTORIAL_3.get());

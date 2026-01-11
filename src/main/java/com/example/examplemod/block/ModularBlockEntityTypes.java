@@ -14,9 +14,12 @@ public class ModularBlockEntityTypes {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES =
             DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, ExampleMod.MODID);
 
-    @SuppressWarnings("rawtypes")
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<RepairStationBlockEntity>> REPAIR_STATION =
             BLOCK_ENTITY_TYPES.register("repair_station", () ->
                     BlockEntityType.Builder.of(RepairStationBlockEntity::new, ModularBlocks.REPAIR_STATION_BLOCK.get()).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<MyFurnBlockEntity>> MY_FURN =
+            BLOCK_ENTITY_TYPES.register("my_furn", () ->
+                    BlockEntityType.Builder.of(MyFurnBlockEntity::new, ModularBlocks.MY_FURN_BLOCK.get()).build(null));
 
 }
