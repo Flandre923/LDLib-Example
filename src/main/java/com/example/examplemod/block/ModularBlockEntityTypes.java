@@ -22,4 +22,12 @@ public class ModularBlockEntityTypes {
             BLOCK_ENTITY_TYPES.register("my_furn", () ->
                     BlockEntityType.Builder.of(MyFurnBlockEntity::new, ModularBlocks.MY_FURN_BLOCK.get()).build(null));
 
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SimpleBlockEntity>> SIMPLE =
+            BLOCK_ENTITY_TYPES.register("simple", () ->
+                    BlockEntityType.Builder.of(SimpleBlockEntity::new, ModularBlocks.SIMPLE_BLOCK.get()).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<FluidFurnaceBlockEntity>> FLUID_FURNACE =
+            BLOCK_ENTITY_TYPES.register("fluid_furnace", () ->
+                    BlockEntityType.Builder.of(FluidFurnaceBlockEntity::new, ModularBlocks.FLUID_FURNACE_BLOCK.get()).build(null));
+
 }

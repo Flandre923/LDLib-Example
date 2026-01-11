@@ -2,6 +2,11 @@ package com.example.examplemod;
 
 import com.example.examplemod.item.tutorial.*;
 import com.example.examplemod.thirst.ThirstDataAttachment;
+import com.lowdragmc.lowdraglib2.misc.FluidStorage;
+import com.lowdragmc.lowdraglib2.syncdata.AccessorRegistries;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.neoforged.neoforge.fluids.FluidStack;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -73,6 +78,10 @@ public class ExampleMod {
     public static final DeferredItem<BlockItem> REPAIR_STATION_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("repair_station_block", ModularBlocks.REPAIR_STATION_BLOCK);
     // 创建熔炉方块物品
     public static final DeferredItem<BlockItem> MY_FURN_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("my_furn_block", ModularBlocks.MY_FURN_BLOCK);
+    // 创建简单方块物品
+    public static final DeferredItem<BlockItem> SIMPLE_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("simple_block", ModularBlocks.SIMPLE_BLOCK);
+    // 创建流体熔炉方块物品
+    public static final DeferredItem<BlockItem> FLUID_FURNACE_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("fluid_furnace_block", ModularBlocks.FLUID_FURNACE_BLOCK);
     // 创建教程1物品
     public static final DeferredItem<Item> TUTORIAL_1 = ITEMS.register("tutorial_1",
             () -> Tutorial1Item.INSTANCE.get());
@@ -109,6 +118,8 @@ public class ExampleMod {
                 output.accept(EXAMPLE_ITEM.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
                 output.accept(REPAIR_STATION_BLOCK_ITEM.get());
                 output.accept(MY_FURN_BLOCK_ITEM.get());
+                output.accept(SIMPLE_BLOCK_ITEM.get());
+                output.accept(FLUID_FURNACE_BLOCK_ITEM.get());
                 output.accept(TUTORIAL_1.get());
                 output.accept(TUTORIAL_2.get());
                 output.accept(TUTORIAL_3.get());
@@ -163,7 +174,55 @@ public class ExampleMod {
         LOGGER.info("{}{}", Config.MAGIC_NUMBER_INTRODUCTION.get(), Config.MAGIC_NUMBER.getAsInt());
 
         Config.ITEM_STRINGS.get().forEach((item) -> LOGGER.info("ITEM >> {}", item));
+
+        // Register FluidStorage accessor for sync/persistence
+//        registerFluidStorageAccessor();
     }
+
+//    /**
+//     * Register accessor for FluidStorage class.
+//     * This is required to use @Persisted and @DescSynced on FluidStorage fields.
+//     */
+//    private static void registerFluidStorageAccessor() {
+//        // Codec for NBT persistence - stores FluidStack and capacity
+//        Codec<FluidStorage> codec = RecordCodecBuilder.<FluidStorage>create(instance -> instance.group(
+//            FluidStack.OPTIONAL_CODEC.fieldOf("fluid").forGetter(FluidStorage::getFluid),
+//            Codec.INT.fieldOf("capacity").forGetter(FluidStorage::getCapacity)
+//        ).apply(instance, (fluid, capacity) -> {
+//            var storage = new FluidStorage(capacity);
+//            if (!fluid.isEmpty()) {
+//                storage.fill(fluid, net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
+//            }
+//            return storage;
+//        }));
+//
+//        // StreamCodec for network sync
+//        var streamCodec = NetworkingCodecs.create(FluidStorage.class,
+//            (buf, storage) -> {
+//                FluidStack.OPTIONAL_STREAM_CODEC.encode(buf, storage.getFluid());
+//                buf.writeInt(storage.getCapacity());
+//            },
+//            buf -> {
+//                var fluid = FluidStack.OPTIONAL_STREAM_CODEC.decode(buf);
+//                var capacity = buf.readInt();
+//                var storage = new FluidStorage(capacity);
+//                if (!fluid.isEmpty()) {
+//                    storage.fill(fluid, net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
+//                }
+//                return storage;
+//            }
+//        );
+//
+//        var accessor = CustomDirectAccessor.builder(FluidStorage.class)
+//            .codec(codec)
+//            .streamCodec(streamCodec)
+//            .copyMark(storage -> {
+//                return new FluidStorage(storage.getFluid(), storage.getCapacity());
+//            })
+//            .build();
+//
+//        AccessorRegistries.registerAccessor(accessor);
+//    }
 
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {

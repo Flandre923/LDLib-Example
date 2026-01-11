@@ -18,4 +18,10 @@ public class ModularBlocks {
     public static final DeferredHolder<Block, MyFurnBlock> MY_FURN_BLOCK =
             BLOCKS.register("my_furn_block", MyFurnBlock::new);
 
+    public static final DeferredHolder<Block, SimpleBlock> SIMPLE_BLOCK =
+            BLOCKS.register("simple_block", SimpleBlock::new);
+
+    public static final DeferredHolder<Block, FluidFurnaceBlock> FLUID_FURNACE_BLOCK =
+            BLOCKS.register("fluid_furnace_block", FluidFurnaceBlock::new);
+
 }
