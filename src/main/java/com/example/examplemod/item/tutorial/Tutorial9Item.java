@@ -83,7 +83,7 @@ public class Tutorial9Item extends Item implements HeldItemUIMenuType.HeldItemUI
         root.addChild(new Label()
                 .bindDataSource(SupplierDataSource.of(()-> Component.literal(String.valueOf(ThirstDataAttachment.getThirstData(holder.player).getThirst())))));
         root.addChild(new Button().setText("+").setOnClick(e -> RPCPacketDistributor.rpcToServer("addThirst",1)));
-        root.addChild(new Button().setText("-").setOnClick(e -> RPCPacketDistributor.rpcToServer("addThirst",-1)));
+        root.addChild(new Button().setText("-").setOnServerClick(event -> { }).setOnClick(e -> RPCPacketDistributor.rpcToServer("addThirst",-1)));
         return new ModularUI(UI.of(root), holder.player);
-    }
+        }
 }

@@ -1,5 +1,6 @@
 package com.example.examplemod;
 
+import com.example.examplemod.item.PotionInjectorItem;
 import com.example.examplemod.item.tutorial.*;
 import com.example.examplemod.thirst.ThirstDataAttachment;
 import com.lowdragmc.lowdraglib2.misc.FluidStorage;
@@ -82,6 +83,8 @@ public class ExampleMod {
     public static final DeferredItem<BlockItem> SIMPLE_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("simple_block", ModularBlocks.SIMPLE_BLOCK);
     // 创建流体熔炉方块物品
     public static final DeferredItem<BlockItem> FLUID_FURNACE_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("fluid_furnace_block", ModularBlocks.FLUID_FURNACE_BLOCK);
+    public static final DeferredItem<BlockItem> COAL_GENERATOR_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("coal_generator_block", ModularBlocks.COAL_GENERATOR_BLOCK);
+    // 创建大存储方块物品
     // 创建教程1物品
     public static final DeferredItem<Item> TUTORIAL_1 = ITEMS.register("tutorial_1",
             () -> Tutorial1Item.INSTANCE.get());
@@ -109,6 +112,10 @@ public class ExampleMod {
             () -> Tutorial8Item.INSTANCE.get());
     public static final DeferredItem<Item> TUTORIAL_9 = ITEMS.register("tutorial_9",
             () -> Tutorial9Item.INSTANCE.get());
+
+    // 创建药水注射器物品
+    public static final DeferredItem<Item> POTION_INJECTOR = ITEMS.register("potion_injector",
+            () -> PotionInjectorItem.INSTANCE.get());
     // Creates a creative tab with the id "examplemod:example_tab" for the example item, that is placed after the combat tab
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.examplemod")) //The language key for the title of your CreativeModeTab
@@ -120,6 +127,7 @@ public class ExampleMod {
                 output.accept(MY_FURN_BLOCK_ITEM.get());
                 output.accept(SIMPLE_BLOCK_ITEM.get());
                 output.accept(FLUID_FURNACE_BLOCK_ITEM.get());
+                output.accept(COAL_GENERATOR_BLOCK_ITEM.get());
                 output.accept(TUTORIAL_1.get());
                 output.accept(TUTORIAL_2.get());
                 output.accept(TUTORIAL_3.get());
@@ -129,6 +137,7 @@ public class ExampleMod {
                 output.accept(TUTORIAL_7.get());
                 output.accept(TUTORIAL_8.get());
                 output.accept(TUTORIAL_9.get());
+                output.accept(POTION_INJECTOR.get());
             }).build());
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
@@ -151,6 +160,8 @@ public class ExampleMod {
         CREATIVE_MODE_TABS.register(modEventBus);
 
         ThirstDataAttachment.ATTACHMENT_TYPES.register(modEventBus);
+        // Register capabilities (mod bus event)
+        modEventBus.addListener(ModCapabilities::onRegisterCapabilities);
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.

@@ -3,6 +3,7 @@
   "block.examplemod.example_block": "Example Block",
   "item.examplemod.example_item": "Example Item",
   "item.examplemod.repair_station": "Repair Station",
+  "item.examplemod.potion_injector": "Potion Injector",
 
   "block.examplemod.repair_station_block": "Repair Station",
   "block.examplemod.repair_station_block.tooltip": "Right click to open repair UI.\\nEach tick repairs 1 durability.",

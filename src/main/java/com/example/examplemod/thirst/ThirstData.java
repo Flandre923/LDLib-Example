@@ -43,7 +43,6 @@ public class ThirstData   {
     @RPCPacket("addThirst")
     public static void onAddThirst(RPCSender sender, int amount){
         if(sender.isServer()){
-//            ThirstDataAttachment.getThirstData(player).addThirst(amount);
             ExampleMod.LOGGER.info("ExampleMod::addThirst Server " + amount);
         }else{
             ExampleMod.LOGGER.info("ExampleMod::addThirst Client " + amount);

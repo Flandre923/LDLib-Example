@@ -95,7 +95,7 @@ public class RepairStationBlockEntity extends BlockEntity implements ISyncPersis
         root.addChild(new ProgressBar()
                 .bindDataSource(SupplierDataSource.of(()->repairProgress/100f))
                 .setProgress(0.5f)
-                .label(label->label.setText(""))
+                .label(label->label.setText("Progress"))
         );
 
         root.addChild(new Label()
@@ -110,6 +110,4 @@ public class RepairStationBlockEntity extends BlockEntity implements ISyncPersis
 
         return new ModularUI(UI.of(root),holder.player);
     }
-
-
 }

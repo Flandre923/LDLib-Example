@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ldlib2-ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/Low-Drag-MC/LDLib2/refs/heads/1.21/ldlib2-ui.xsd">
+    <stylesheet location="ldlib2:lss/mc.lss"/>
+    <style>
+        /* 主面板 - 标准熔炉尺寸 */
+        .root-panel {
+            width: 176;
+            height: 166;
+            padding: 8;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* 标题样式 - 使用游戏原生标题，这里不需要重复 */
+        .title-spacer {
+            height: 6;
+        }
+
+        /* 处理区域容器 */
+        .process-container {
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            margin-top: 8;
+            margin-bottom: 6;
+        }
+
+        /* 流体槽 - 竖向显示 */
+        .fluid-area {
+            width: 20;
+            height: 48;
+            margin-right: 14;
+        }
+
+        /* 熔炼区域 - 输入、进度、输出 */
+        .smelting-area {
+            flex-direction: row;
+            align-items: center;
+            gap: 4;
+        }
+
+        /* 输入输出槽 */
+        .io-slot {
+            width: 18;
+            height: 18;
+        }
+
+        /* 进度箭头 */
+        .arrow-progress {
+            width: 24;
+            height: 17;
+            margin-left: 2;
+            margin-right: 2;
+        }
+
+        /* 状态标签 */
+        .status-section {
+            height: 12;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8;
+        }
+
+        .status-text {
+            font-size: 10;
+            color: #505050;
+        }
+
+        /* 分隔线 - 原版风格 */
+        .inventory-line {
+            width: 162;
+            height: 1;
+            margin-top: 2;
+            margin-bottom: 6;
+            background-color: #8B8B8B;
+            border-top: 1 solid #404040;
+        }
+
+        /* 玩家物品栏区域 */
+        .inventory-area {
+            margin-top: 2;
+        }
+    </style>
+    <root class="panel_bg root-panel">
+        <!-- 标题占位（游戏原生标题） -->
+        <element class="title-spacer"/>
+
+        <!-- 主处理区域 -->
+        <element class="process-container">
+            <!-- 流体槽（燃料） -->
+            <fluid-slot id="fluid_slot" class="fluid-area"/>
+
+            <!-- 熔炼区域 -->
+            <element class="smelting-area">
+                <!-- 输入槽 -->
+                <item-slot id="input_slot" class="io-slot"/>
+
+                <!-- 进度箭头 -->
+                <progress-bar id="progress_bar" class="arrow-progress" max="200"/>
+
+                <!-- 输出槽 -->
+                <item-slot id="output_slot" class="io-slot"/>
+            </element>
+        </element>
+
+        <!-- 状态标签 -->
+        <element class="status-section">
+            <label id="status_label" class="status-text">Ready</label>
+        </element>
+
+        <!-- 分隔线 -->
+        <element class="inventory-line"/>
+
+        <!-- 玩家物品栏 -->
+        <element class="inventory-area">
+            <inventory-slots/>
+        </element>
+    </root>
+</ldlib2-ui>

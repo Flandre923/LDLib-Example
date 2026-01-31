@@ -1,6 +1,9 @@
 package com.example.examplemod.block;
 
+import com.example.examplemod.gui.element.BigItemSlot;
 import com.lowdragmc.lowdraglib2.gui.factory.BlockUIMenuType;
+import com.lowdragmc.lowdraglib2.gui.slot.ItemHandlerSlot;
+import com.lowdragmc.lowdraglib2.gui.slot.LocalSlot;
 import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
@@ -15,6 +18,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.Capabilities.ItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import org.appliedenergistics.yoga.YogaAlign;
 import org.appliedenergistics.yoga.YogaEdge;
 import org.appliedenergistics.yoga.YogaGutter;
@@ -55,6 +61,8 @@ public class SimpleBlockEntity extends BlockEntity implements ISyncPersistRPCBlo
         counter++;
     }
 
+    long []myStorage = new long[]{500000L};
+    ItemStackHandler itemHandler = new ItemStackHandler(1);
     /**
      * 创建方块的UI
      */
@@ -84,6 +92,10 @@ public class SimpleBlockEntity extends BlockEntity implements ISyncPersistRPCBlo
                     incrementCounter();
                 });
         root.addChild(button);
+
+        root.addChildren(new BigItemSlot(new LocalSlot(),()->myStorage[0])
+                .slotStyle(s->s.showItemTooltips(true))
+                .bind(itemHandler,0));
 
         return new ModularUI(UI.of(root), holder.player);
     }

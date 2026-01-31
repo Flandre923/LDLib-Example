@@ -4,21 +4,20 @@ import com.lowdragmc.lowdraglib2.gui.factory.BlockUIMenuType;
 import com.lowdragmc.lowdraglib2.gui.sync.bindings.impl.SupplierDataSource;
 import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
 import com.lowdragmc.lowdraglib2.gui.ui.UI;
-import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.FillDirection;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.FluidSlot;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.ItemSlot;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Label;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.ProgressBar;
-import com.lowdragmc.lowdraglib2.gui.ui.elements.inventory.InventorySlots;
-import com.lowdragmc.lowdraglib2.gui.ui.style.StylesheetManager;
 import com.lowdragmc.lowdraglib2.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib2.syncdata.holder.blockentity.ISyncPersistRPCBlockEntity;
 import com.lowdragmc.lowdraglib2.syncdata.storage.FieldManagedStorage;
 import com.lowdragmc.lowdraglib2.syncdata.storage.IManagedStorage;
+import com.lowdragmc.lowdraglib2.utils.XmlUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -29,10 +28,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
-import org.appliedenergistics.yoga.YogaEdge;
-import org.appliedenergistics.yoga.YogaGutter;
 
-import java.util.List;
 import javax.annotation.Nullable;
 
 /**
@@ -72,7 +68,7 @@ public class FluidFurnaceBlockEntity extends BlockEntity implements ISyncPersist
     private static final int FLUID_PER_ITEM = 10;
 
     /** 烧制时间 (原版熔炉200tick) */
-    private static final int SMELT_TIME = 200;
+    public static final int SMELT_TIME = 200;
 
     /** 当前剩余可烧制次数 (根据剩余流体计算) */
     @Persisted
@@ -209,72 +205,65 @@ public class FluidFurnaceBlockEntity extends BlockEntity implements ISyncPersist
     }
 
     /**
-     * 创建模块化UI
+     * 创建模块化UI - 从XML加载并绑定数据
      */
     public ModularUI createUI(BlockUIMenuType.BlockUIHolder holder) {
-        // 根元素 - 使用Flexbox布局
-        var root = new UIElement().layout(layout -> layout
-                .setPadding(YogaEdge.ALL, 4)
-                .setGap(YogaGutter.ALL, 4)
-        ).addClass("panel_bg");
+        // 从XML加载UI
+        var xml = XmlUtils.loadXml(ResourceLocation.parse("examplemod:fluid_furnace.xml"));
+        var ui = UI.of(xml);
 
-        // 标题
-        root.addChild(new Label().setText("Fluid Furnace").layout(layout -> layout
-                .setMargin(YogaEdge.BOTTOM, 2)
-        ));
-
-        // 流体槽 + 进度条行
-        var middleRow = new UIElement();
-
-        // 流体槽 (使用 this 作为 IFluidHandler)
-        var fluidSlot = new FluidSlot()
-                .setCapacity(FLUID_CAPACITY)
-                .slotStyle(style -> style.fillDirection(FillDirection.UP_TO_DOWN));
-        fluidSlot.bind(this, 0);
-
-        // 进度条
-        var progressBar = new ProgressBar()
-                .setRange(0, SMELT_TIME)
-                .progressBarStyle(style -> style.fillDirection(FillDirection.LEFT_TO_RIGHT));
-        progressBar.bindDataSource(SupplierDataSource.of(() -> progress));
-
-        middleRow.addChild(fluidSlot);
-        middleRow.addChild(progressBar);
-
-        // 物品槽行
-        var itemRow = new UIElement();
-
-        // 输入槽 (绑定到 inventory 第0个槽位)
-        itemRow.addChild(new Label().setText("In"));
-        itemRow.addChild(new ItemSlot().bind(inventory, 0));
-
-        // 箭头
-        itemRow.addChild(new Label().setText("->"));
-
-        // 输出槽 (绑定到 inventory 第1个槽位)
-        itemRow.addChild(new Label().setText("Out"));
-        itemRow.addChild(new ItemSlot().bind(inventory, 1));
-
-        root.addChild(middleRow);
-        root.addChild(itemRow);
-
-        // 状态标签
-        root.addChild(new Label().bindDataSource(SupplierDataSource.of(() -> {
-            if (isWorking) {
-                return Component.literal("Smelting... " + (int)(progress / SMELT_TIME * 100) + "%");
-            } else if (fluidStack.isEmpty()) {
-                return Component.literal("Need Fluid!");
-            } else if (inventory.getStackInSlot(0).isEmpty()) {
-                return Component.literal("Place items to smelt");
-            } else if (currentRecipe == null) {
-                return Component.literal("No recipe for this item");
-            } else {
-                return Component.literal("Ready");
+        // 绑定流体槽
+        ui.select("#fluid_slot").findFirst().ifPresent(element -> {
+            if (element instanceof FluidSlot fluidSlot) {
+                fluidSlot.setCapacity(FLUID_CAPACITY)
+                        .slotStyle(style -> style.fillDirection(FillDirection.UP_TO_DOWN));
+                fluidSlot.bind(this, 0);
             }
-        })));
+        });
 
-        root.addChildren(new InventorySlots());
-        return new ModularUI(UI.of(root, List.of(StylesheetManager.INSTANCE.getStylesheetSafe(StylesheetManager.MC))), holder.player);
+        // 绑定输入槽
+        ui.select("#input_slot").findFirst().ifPresent(element -> {
+            if (element instanceof ItemSlot itemSlot) {
+                itemSlot.bind(inventory, 0);
+            }
+        });
+
+        // 绑定输出槽
+        ui.select("#output_slot").findFirst().ifPresent(element -> {
+            if (element instanceof ItemSlot itemSlot) {
+                itemSlot.bind(inventory, 1);
+            }
+        });
+
+        // 绑定进度条
+        ui.select("#progress_bar").findFirst().ifPresent(element -> {
+            if (element instanceof ProgressBar progressBar) {
+                progressBar.setRange(0, SMELT_TIME)
+                        .progressBarStyle(style -> style.fillDirection(FillDirection.LEFT_TO_RIGHT));
+                progressBar.bindDataSource(SupplierDataSource.of(() -> progress));
+            }
+        });
+
+        // 绑定状态标签
+        ui.select("#status_label").findFirst().ifPresent(element -> {
+            if (element instanceof Label label) {
+                label.bindDataSource(SupplierDataSource.of(() -> {
+                    if (isWorking) {
+                        return Component.literal("Smelting... " + (int)(progress / SMELT_TIME * 100) + "%");
+                    } else if (fluidStack.isEmpty()) {
+                        return Component.literal("Need Fluid!");
+                    } else if (inventory.getStackInSlot(0).isEmpty()) {
+                        return Component.literal("Place items to smelt");
+                    } else if (currentRecipe == null) {
+                        return Component.literal("No recipe for this item");
+                    } else {
+                        return Component.literal("Ready");
+                    }
+                }));
+            }
+        });
+
+        return ModularUI.of(ui, holder.player);
     }
 
     // ==================== IFluidHandler 实现 ====================
