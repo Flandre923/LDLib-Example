@@ -34,4 +34,8 @@ public class ModularBlockEntityTypes {
             BLOCK_ENTITY_TYPES.register("coal_generator", () ->
                     BlockEntityType.Builder.of(CoalGeneatorBlockEntity::new, ModularBlocks.COAL_GENERATOR_BLOCK.get()).build(null));
 
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GrinderBlockEntity>> GRINDER =
+            BLOCK_ENTITY_TYPES.register("grinder", () ->
+                    BlockEntityType.Builder.of(GrinderBlockEntity::new, ModularBlocks.GRINDER_BLOCK.get()).build(null));
+
 }

@@ -27,4 +27,7 @@ public class ModularBlocks {
     public static final DeferredHolder<Block, CoalGeneator> COAL_GENERATOR_BLOCK =
             BLOCKS.register("coal_generator_block", CoalGeneator::new);
 
+    public static final DeferredHolder<Block, GrinderBlock> GRINDER_BLOCK =
+            BLOCKS.register("grinder_block", GrinderBlock::new);
+
 }

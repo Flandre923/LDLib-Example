@@ -84,6 +84,7 @@ public class ExampleMod {
     // 创建流体熔炉方块物品
     public static final DeferredItem<BlockItem> FLUID_FURNACE_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("fluid_furnace_block", ModularBlocks.FLUID_FURNACE_BLOCK);
     public static final DeferredItem<BlockItem> COAL_GENERATOR_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("coal_generator_block", ModularBlocks.COAL_GENERATOR_BLOCK);
+    public static final DeferredItem<BlockItem> GRINDER_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("grinder_block", ModularBlocks.GRINDER_BLOCK);
     // 创建大存储方块物品
     // 创建教程1物品
     public static final DeferredItem<Item> TUTORIAL_1 = ITEMS.register("tutorial_1",
@@ -128,6 +129,7 @@ public class ExampleMod {
                 output.accept(SIMPLE_BLOCK_ITEM.get());
                 output.accept(FLUID_FURNACE_BLOCK_ITEM.get());
                 output.accept(COAL_GENERATOR_BLOCK_ITEM.get());
+                output.accept(GRINDER_BLOCK_ITEM.get());
                 output.accept(TUTORIAL_1.get());
                 output.accept(TUTORIAL_2.get());
                 output.accept(TUTORIAL_3.get());
